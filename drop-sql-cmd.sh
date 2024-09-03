@@ -20,7 +20,7 @@ az account get-access-token --resource https://database.windows.net --output tsv
 for db in "${database_array[@]}"; do
     echo "Processing database: $db"
 
-    if [[ "$db" == "order_microservice_ie_mo0" ]]; then
+    if [[ "$db" == order_* ]]; then
         echo "Running additional command for database: $db"
 		sqlcmd -S "$server" -d "$db" -G -P "$TOKEN" -Q "DROP TABLE dbo.voucher;"
 		exit_status=$?  # Capture the exit status
