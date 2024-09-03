@@ -8,10 +8,13 @@ fi
 # Define the list of databases
 IFS=',' read -r -a database_array <<< "$databases"
 
-# Extracting Access Token
+# AZ login with workload identity
 az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
 
 TOKEN="/tmp/token"  # Replace this with your actual token or ensure it's set in the environment
+
+# Extracting Access Token
+az account get-access-token --resource https://database.windows.net --output tsv | cut -f 1 | tr -d '\n' | iconv -f ascii -t UTF-16LE > "$TOKEN"
 
 # Loop through each database and run the sqlcmd command
 for db in "${database_array[@]}"; do
