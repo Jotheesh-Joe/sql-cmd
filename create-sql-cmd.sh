@@ -20,7 +20,7 @@ az account get-access-token --resource https://database.windows.net --output tsv
 for db in "${database_array[@]}"; do
     echo "Processing database: $db"
 
-    if [[ "$db" == "order_microservice_ie_mo0" ]]; then
+    if [[ "$db" == order_* ]]; then
         echo "Running additional command for database: $db"
 		sqlcmd -S "$server" -d "$db" -G -P "$TOKEN" -Q "CREATE TABLE dbo.voucher (id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, external_reference VARCHAR(255), amount BIGINT, description VARCHAR(255), basket_id UNIQUEIDENTIFIER NOT NULL);"
 		exit_status=$?  # Capture the exit status
