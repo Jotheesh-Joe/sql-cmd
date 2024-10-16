@@ -23,11 +23,12 @@ for db in "${database_array[@]}"; do
     if [[ "$db" == order_* ]]; then
         echo "Running additional command for database: $db"
 		sqlcmd -S "$server" -d "$db" -G -P "$TOKEN" -Q "DROP TABLE dbo.voucher;"
+  		sqlcmd -S "$server" -d "$db" -G -P "$TOKEN" -Q "DROP TABLE dbo.override;"
 		exit_status=$?  # Capture the exit status
 		if [ $exit_status -ne 0 ]; then
-            echo "Error occurred while processing table dbo.voucher in database: $db"
+            echo "Error occurred while processing table dbo.voucher and dbo.override in database: $db"
         else
-            echo "Successfully processed dbo.voucher table in database: $db"
+            echo "Successfully processed dbo.voucher and dbo.override table in database: $db"
         fi
     fi
 
